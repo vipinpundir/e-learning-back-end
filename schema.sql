@@ -3,9 +3,10 @@ CREATE DATABASE IF NOT EXISTS elearning;
 
 
 CREATE TABLE users (
-    fullName VARCHAR(50), 
-    email VARCHAR(50) , 
-    password INT
+    fullName VARCHAR(50),
+    email VARCHAR(50),
+    password INT,
+    role VARCHAR(20) DEFAULT 'user'
 );
 
 
@@ -19,7 +20,7 @@ CREATE TABLE courses (
     video_url VARCHAR(255)
 );
 
-INSERT INTO courses (title, author, categories, price, description, video_url) VALUES( "Advanced JavaScript", "Harshit Sharma", "Programming Language", 1999, "This course is for beginner to advanced level", "https://youtu.be/chx9Rs41W6g?si=1w4M1UlmShTNsywp");
+INSERT INTO courses (title, author, categories, price, description, video_url, img_url) VALUES( "Advanced JavaScript", "Harshit Sharma", "Programming Language", 1999, "This course is for beginner to advanced level", "https://youtu.be/chx9Rs41W6g?si=1w4M1UlmShTNsywp");
 
 CREATE TABLE enrolled_courses (
     userEmail VARCHAR(50),

@@ -120,7 +120,7 @@ app.post("/enrolled/courses", (req, res) => {
     const q = `SELECT courses.title, courses.author, courses.categories, courses.price, courses.description, courses.video_url
     FROM enrolled_courses
     JOIN courses ON enrolled_courses.courseID = courses.id
-    WHERE enrolled_courses.userEmail = ?`;
+    WHERE enrolled_courses.userEmail =?`;
     try {
         db.query(q, userEmail, (err, results) => {
             // Handle None
@@ -137,3 +137,55 @@ app.post("/enrolled/courses", (req, res) => {
     }
 
 });
+
+
+// POST to Add New Course 
+app.post("/add/course", (req, res) => {
+    const { title, author, categories, price, description, video_url, img_url } = req.body
+    const q = `INSERT INTO courses VALUES(?, ?, ?, ?, ?, ?, ?)`;
+    try {
+        db.query(q, [title, author, categories, price, description, video_url, img_url], (err, results) => {
+
+            if (err) {
+                // sets the HTTP status code of the response to 500 (Internal Server Error)
+                res.status(500).json({ error: "Internal Server Error", });
+            } else {
+                // Handle successful insertion
+                res.status(200).json({ message: "Course added successful" });
+            }
+        });
+    } catch (error) {
+        console.error("Unexpected error:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+})
+
+// POST to delete course 
+app.post('/delete/course', (req, res)=>{
+    const {courseID} = req.body;
+    const q1 = `DELETE FROM enrolled_courses WHERE courseID=?`;
+    const q2 = `DELETE FROM courses WHERE id=?`;
+    try{
+        db.query(q1, courseID, (err, results)=>{
+            if (err) {
+                // sets the HTTP status code of the response to 500 (Internal Server Error)
+                res.status(500).json({ error: "Internal Server Error", });
+            } else {
+                // After successful delition from enrolled_courses
+                db.query(q2, courseID, (err, results)=>{
+                    if (err) {
+                        res.status(500).json({ error: "Internal Server Error", });
+                    } else {
+                        // Handle successful delition from courses
+                        res.status(200).json({ message: "Course deleted successfully" });
+
+                    }
+                })
+            }
+        })
+
+    }catch(error){
+        console.error("Unexpected error:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+})
