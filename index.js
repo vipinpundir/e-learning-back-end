@@ -189,3 +189,29 @@ app.post('/delete/course', (req, res)=>{
         res.status(500).json({ error: "Internal Server Error" });
     }
 })
+
+// PATCH to Edit Course Details 
+app.patch("/edit/course/:id", (req, res) => {
+    const id = req.params.id;
+    const { title, author, categories, price, description, video_url, img_url } = req.body
+    // const q = `INSERT INTO courses (title, author, categories, price, description, video_url, img_url) VALUES (?, ?, ?, ?, ?, ?, ?)`;
+    const q = `UPDATE courses
+    SET title = ?, author = ?, categories = ?, price = ?, description = ?, video_url = ?, img_url = ?
+    WHERE id = ?;
+    `;
+    try {
+        db.query(q, [title, author, categories, price, description, video_url, img_url, id], (err, results) => {
+            
+            if (err) {
+                // sets the HTTP status code of the response to 500 (Internal Server Error)
+                res.status(500).json({ error: "Internal Server Error", });
+            } else {
+                // Handle successful insertion
+                res.status(200).json({ message: "Course details updated" });
+            }
+        });
+    } catch (error) {
+        console.error("Unexpected error:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+})
