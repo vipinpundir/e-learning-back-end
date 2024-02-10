@@ -17,10 +17,11 @@ CREATE TABLE courses (
     categories VARCHAR(50),
     price INT,
     description VARCHAR(255),
-    video_url VARCHAR(255)
+    video_url VARCHAR(255),
+    img_url VARCHAR(255)
 );
 
-INSERT INTO courses (title, author, categories, price, description, video_url, img_url) VALUES( "Advanced JavaScript", "Harshit Sharma", "Programming Language", 1999, "This course is for beginner to advanced level", "https://youtu.be/chx9Rs41W6g?si=1w4M1UlmShTNsywp");
+INSERT INTO courses (title, categories, price, description, video_url, img_url) VALUES( "Advanced JavaScript", "Harshit Sharma", "Programming Language", 1999, "This course is for beginner to advanced level", "https://youtu.be/chx9Rs41W6g?si=1w4M1UlmShTNsywp");
 
 CREATE TABLE enrolled_courses (
     userEmail VARCHAR(50),

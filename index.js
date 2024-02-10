@@ -142,10 +142,10 @@ app.post("/enrolled/courses", (req, res) => {
 // POST to Add New Course 
 app.post("/add/course", (req, res) => {
     const { title, author, categories, price, description, video_url, img_url } = req.body
-    const q = `INSERT INTO courses VALUES(?, ?, ?, ?, ?, ?, ?)`;
+    const q = `INSERT INTO courses (title, author, categories, price, description, video_url, img_url) VALUES (?, ?, ?, ?, ?, ?, ?)`;
     try {
         db.query(q, [title, author, categories, price, description, video_url, img_url], (err, results) => {
-
+            
             if (err) {
                 // sets the HTTP status code of the response to 500 (Internal Server Error)
                 res.status(500).json({ error: "Internal Server Error", });
